@@ -74,6 +74,26 @@ The API will be running on [http://localhost:5000](http://localhost:5000/) and t
 
 To stop the API and client dev server, press `Ctrl + C` in the terminal.
 
+Api Routes
+--------
+
+To get add a movies to the catalog:
+
+        `post`
+        `http://localhost:5000/movies`
+
+To get all movies in the catalog:
+
+        `GET`
+        `http://localhost:5000/movies`
+
+To get a movie by id:
+
+        `GET`
+        `http://localhost:5000/movies/:id`
+
+you can checkout the API documentation [here](https://documenter.getpostman.com/view/23216120/2s93eSZadz).
+
 Features
 --------
 
