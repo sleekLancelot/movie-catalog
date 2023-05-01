@@ -90,7 +90,17 @@ To get all movies in the catalog:
 To get a movie by id:
 
         `GET`
+        `http://localhost:5000/movies/details/:id`
+
+To get delete a movie:
+
+        `DELETE`
         `http://localhost:5000/movies/:id`
+
+To get all unique genres in the database:
+
+        `GET`
+        `http://localhost:5000/movies/genres`
 
 you can checkout the API documentation [here](https://documenter.getpostman.com/view/23216120/2s93eSZadz).
 
