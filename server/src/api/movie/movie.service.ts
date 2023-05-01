@@ -21,19 +21,33 @@ export class MovieService {
     limit: number = 10,
     order: 'ASC' | 'DESC' = 'ASC',
     title?: string,
-    genre?: string,
+    genre: string = '',
   ): Promise<[Movie[], number, number]> {
-    const [movies, total] = await this.movieRepository.findAndCount({
-      where: {
-        title: Like(`%${title}%`),
-        // genre: In([...genre.split(',')]),
-      },
-      order: {
-        title: order,
-      },
-      skip: (page - 1) * limit,
-      take: limit,
-    });
+    let genreArr: string[] = [];
+    if (genre) {
+      genreArr = genre.split(',');
+    }
+
+    const [movies, total] = await this.movieRepository
+    // .findAndCount({
+    //   where: {
+    //     title: Like(`%${title}%`),
+    //     // genre: In(genre ? [...genre.split(',')] : []),
+    //   },
+    //   order: {
+    //     title: order,
+    //   },
+    //   skip: (page - 1) * limit,
+    //   take: limit,
+    // });
+
+    .createQueryBuilder('movie')
+    .where('movie.title ILIKE :title', { title: `%${title}%` })
+    .andWhere(genre ? `movie.genre IN (:...genres)` : '1=1', { genres: genre?.split(',') })
+    .orderBy({ title: order })
+    .skip((page - 1) * limit)
+    .take(limit)
+    .getManyAndCount();
     return [movies, total, page];
   }
 
