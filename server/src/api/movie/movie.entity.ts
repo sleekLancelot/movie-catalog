@@ -11,8 +11,8 @@ export class Movie {
   @Column({ type: 'numeric', precision: 2, scale: 1 })
   rating: number;
 
-  // @Column({ type: 'varchar' })
-  // description: string;
+  @Column({ type: 'text' })
+  description: string;
 
   @Column({ type: 'varchar', length: 120 })
   director: string;

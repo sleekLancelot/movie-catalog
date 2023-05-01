@@ -11,6 +11,10 @@ export class MovieDto {
 
   @IsNotEmpty()
   @IsString()
+  public description: string;
+
+  @IsNotEmpty()
+  @IsString()
   public director: string;
 
   @IsNotEmpty()
