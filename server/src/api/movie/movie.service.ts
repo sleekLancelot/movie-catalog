@@ -43,7 +43,7 @@ export class MovieService {
 
     .createQueryBuilder('movie')
     .where('movie.title ILIKE :title', { title: `%${title}%` })
-    .andWhere(genre ? `movie.genre IN (:...genres)` : '1=1', { genres: genre?.split(',') })
+    .andWhere(genre ? `movie.genre && :genres` : '1=1', { genres: genre?.split(',').map(g => g.trim()).filter(Boolean) })
     .orderBy({ title: order })
     .skip((page - 1) * limit)
     .take(limit)
