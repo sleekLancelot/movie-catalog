@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import { RootState } from '../store';
 import { FetchStatus, MovieProp, Status } from '../../constant'
-import { api } from '@source/actions';
+import { api, getMovies } from '@source/actions';
 
 interface MoviesProp {
     data: MovieProp[]
@@ -30,20 +30,18 @@ const initialState: InitialStateProp = {
         currentPage: 0,
         last_page: 0,
     },
-    moviesStatus: FetchStatus.IDLE,
+    moviesStatus: FetchStatus.IDLE as Status,
     moviesError: '',
 
     genres: [],
-    genresStatus: FetchStatus.IDLE,
+    genresStatus: FetchStatus.IDLE as Status,
     genresError: '',
 }
 
 // Fetch movies
-export const fetchMovies = createAsyncThunk('movies/fetchMovies', async (_, { rejectWithValue, fulfillWithValue }) => {
+export const fetchMovies = createAsyncThunk('movies/fetchMovies', async (params: {} = {}, { rejectWithValue, fulfillWithValue }) => {
     try {
-        const axiosResponse: any = await api.get('/movies?page=1&limit=10');
-
-        console.log(axiosResponse, 'from movies')
+        const axiosResponse: any = await getMovies(params);
 
         if (axiosResponse?.data) {
             const response = axiosResponse.data;
@@ -69,8 +67,6 @@ export const fetchMovies = createAsyncThunk('movies/fetchMovies', async (_, { re
     try {
         const axiosResponse: any = await api.get('movies/genres');
 
-        console.log(axiosResponse, 'from genres')
-
         if (axiosResponse?.data) {
             const genres = axiosResponse.data;
 
@@ -93,8 +89,8 @@ export const movieSlice = createSlice({
     name: 'movies',
     initialState,
     reducers: {
-        setMovies: (state, action) => {
-            state.movies = action.payload
+        setMoviesData: (state, action) => {
+            state.movies.data = action.payload
         },
         setGenres: (state, action) => {
             state.genres = action.payload
@@ -136,6 +132,6 @@ export const movieSlice = createSlice({
 
 export const movieSelector = ( state: RootState ) => state.movie;
 
-export const {setMovies, setGenres} = movieSlice.actions
+export const {setMoviesData, setGenres} = movieSlice.actions
 
 export const movieReducer = movieSlice.reducer
