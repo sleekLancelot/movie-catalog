@@ -150,7 +150,7 @@ const AllMoviesScreen = () => {
           onClose={onClose}
         />
 
-        <SimpleGrid columns={{base: 1, md: 3}} spacingX='30px' spacingY='20px'>
+        <SimpleGrid mt={10} columns={{base: 1, md: 3}} spacingX='30px' spacingY='20px'>
           {
             moviesStatus === FetchStatus.IDLE ||
             moviesStatus === FetchStatus.PENDING ?

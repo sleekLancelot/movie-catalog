@@ -89,6 +89,12 @@ const CreateMovie = ({
     }
 	}
 
+  const isInvalid = () => (
+    !movieDto.title || !movieDto.year ||
+    !movieDto.description || !movieDto.director ||
+    !movieDto.rating || !movieDto.genre?.length
+  )
+
   return (
     <Modal
 			initialFocusRef={initialRef}
@@ -187,14 +193,14 @@ const CreateMovie = ({
               value={movieDto.genre?.join(',')}
               onChange={e => setMovieDto((movieDto) => ({
                 ...movieDto,
-                [e.target.name]: e.target.value.split(',')
+                [e.target.name]: e.target.value ? e.target.value.split(',') : []
               }))}
             />
           </FormControl>
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit} isLoading={loading}>
+          <Button colorScheme="blue" mr={3} onClick={handleSubmit} isLoading={loading} isDisabled={isInvalid()}>
             Add
           </Button>
           <Button onClick={onClose}>Cancel</Button>
