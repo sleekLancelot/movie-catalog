@@ -63,18 +63,18 @@ const MovieSkeleton = ({
             </Skeleton>
         </Box>
         <Stack pt={10} align={'center'}>
-            <SkeletonText isLoaded={isLoaded} height='10px'>
+            <SkeletonText noOfLines={1} isLoaded={isLoaded} height='10px'>
                 <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
                 </Text>                
             </SkeletonText>
           <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
           </Heading>
           <Stack direction={'row'} align={'center'}>
-            <SkeletonText isLoaded={isLoaded} height='10px'>
+            <SkeletonText noOfLines={1} isLoaded={isLoaded} height='10px'>
                 <Text fontWeight={800} fontSize={'xl'}>
                 </Text>
             </SkeletonText>
-            <SkeletonText isLoaded={isLoaded} height='10px'>
+            <SkeletonText noOfLines={1} isLoaded={isLoaded} height='10px'>
                 <Text textDecoration={'line-through'} color={'gray.600'}>
                 </Text>
             </SkeletonText>

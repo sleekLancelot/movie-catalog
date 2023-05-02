@@ -1,7 +1,7 @@
 import React, { useEffect, useId, useState, useCallback } from 'react'
 import axios from 'axios';
-import { Box, Button, chakra, Divider, FormControl, HStack, Icon, SimpleGrid, Text, useBreakpointValue, useDisclosure, useToast } from '@chakra-ui/react'
-import {IoMdAdd,IoMdAddCircle} from 'react-icons/io'
+import { Box, Button, chakra, Divider, FormControl, HStack, Icon, Input, InputGroup, InputRightElement, SimpleGrid, Text, useBreakpointValue, useDisclosure, useToast } from '@chakra-ui/react'
+import {IoMdAdd,IoMdAddCircle, IoMdSearch} from 'react-icons/io'
 import { Select } from 'chakra-react-select'
 
 import { ColorModeSwitcher } from '@source/theme';
@@ -16,6 +16,7 @@ const AllMoviesScreen = () => {
 	const [MoviesToDisplay, setMoviesToDisplay] = useState<Array<MovieProp>>([])
 	const [MoviesToDelete, setMovieToDelete] = useState<any>({})
   const [filterTerms, setFilterTerms] = useState<Array<any>>([])
+  const [searchTerm, setSearchTerm] = useState('')
 
 	const {
     movies,
@@ -27,14 +28,20 @@ const AllMoviesScreen = () => {
   } = useAppSelector( movieSelector )
 	const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch( fetchMovies({}) )
-    dispatch( fetchGenres() )
-  }, [])
-
   const getSearchTerms = useCallback(() => {
     return filterTerms.map( term => term?.value)
   },[filterTerms])
+
+  useEffect(() => {
+    dispatch( fetchGenres() )
+  }, [])
+
+  useEffect(() => {
+    dispatch( fetchMovies({
+      title: searchTerm,
+      genre: getSearchTerms().join(','),
+    }) )
+  }, [searchTerm, filterTerms])
 
   const parseSelectOptions = (genres: Array<any>) => genres?.map( genreName => ({
     ...genreName,
@@ -97,7 +104,10 @@ const AllMoviesScreen = () => {
         </Button>
 
         <HStack justifyContent={'space-between'} minW={{base: '40vh', md: 300}}>
-          <FormControl>
+          <FormControl
+            id='genres'
+            isInvalid={!!genresError}
+          >
             <Select
               name='genres'
               instanceId={useId()}
@@ -106,12 +116,13 @@ const AllMoviesScreen = () => {
               colorScheme={'teal.500'}
               // closeMenuOnScroll
               isSearchable
-              //isClearable
+              // isClearable
               isMulti
               value={filterTerms}
               options={parseSelectOptions(genres)}
               onChange={setFilterTerms as any}
               noOptionsMessage={() => 'No genres at the moment'}
+              isInvalid={!!genresError}
               />
           </FormControl>
 
@@ -119,8 +130,20 @@ const AllMoviesScreen = () => {
         </HStack>
       </HStack>
 
-      <Box mx={10}>
+      <Box mx={10} zIndex={10}>
         <chakra.h2 my={5} fontSize={22} fontFamily={'body'}>Movie Catalog</chakra.h2>
+
+        <InputGroup display={'flex'} justifyContent={{base: 'center', md: 'flex-end'}} margin={{base: '3px auto', md: 'initial'}} alignItems={'center'} w={{base: 250, md: 300}}>
+          <Input
+            name='title'
+            value={searchTerm}
+            onChange={(e) => setSearchTerm( () => e.target.value)}
+          />
+
+          <InputRightElement pointerEvents='none'>
+            <IoMdSearch color='gray.300' />
+          </InputRightElement>
+        </InputGroup>
         
         <CreateMovie
           isOpen={isOpen}

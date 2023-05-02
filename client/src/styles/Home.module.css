@@ -7,6 +7,10 @@
   min-height: 100vh;
 }
 
+.chakra-react-select{
+  z-index: 100 !important;
+}
+
 .description {
   display: inherit;
   justify-content: inherit;

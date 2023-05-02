@@ -39,7 +39,13 @@ const initialState: InitialStateProp = {
 }
 
 // Fetch movies
-export const fetchMovies = createAsyncThunk('movies/fetchMovies', async (params: {} = {}, { rejectWithValue, fulfillWithValue }) => {
+export const fetchMovies = createAsyncThunk('movies/fetchMovies', async (params: {
+    page?: number
+    limit?: number
+    order?: 'ASC' | 'DESC'
+    title?: string
+    genre?: string
+}, { rejectWithValue, fulfillWithValue }) => {
     try {
         const axiosResponse: any = await getMovies(params);
 
