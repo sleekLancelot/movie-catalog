@@ -76,7 +76,7 @@ const CreateMovie = ({
     setLoading(true)
     try {
       const response = await createMovie(movieDto);
-      console.log(response, 'created')
+
       const moviesLeft  = response.data;
       dispatch(setMoviesData([moviesLeft, ...movies.data ]));
       setLoading(false)

@@ -140,7 +140,6 @@ const AllMoviesScreen = () => {
                 index={index}
                 isLoaded={moviesStatus === FetchStatus.RESOLVED}
                 movie={movie}
-                deleteMovie={() => {}}
               />
             )) :
             <Text>

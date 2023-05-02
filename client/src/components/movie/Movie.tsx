@@ -13,6 +13,7 @@ import {
 	Skeleton,
 } from '@chakra-ui/react';
 import { MovieProp } from '@source/constant';
+import { useRouter } from 'next/router';
 import {BsStarFill} from 'react-icons/bs';
   
   const IMAGE =
@@ -22,15 +23,15 @@ interface MovieComponentProps {
 	index: number
 	isLoaded: boolean
 	movie: MovieProp
-	deleteMovie: any
 }
 
 const Movie = ({
 	index,
 	isLoaded,
 	movie,
-	deleteMovie,
 }: MovieComponentProps) => {
+	const {push} = useRouter()
+
   return (
 	<Skeleton isLoaded={isLoaded} fadeDuration={(index + 1) * 0.5}>
 		<Box
@@ -131,7 +132,7 @@ const Movie = ({
 					_focus={{
 					bg: 'red.500',
 					}}
-					onClick={() => deleteMovie()}
+					onClick={() => push(`/${movie?.id}`)}
 				>
 					Check it out
 				</Button>
